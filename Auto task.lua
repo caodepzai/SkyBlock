@@ -156,13 +156,14 @@ itemTruoc=0
 metaTruoc=0
 function okngay()
     NhiemVu = checkNV()
-    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then doneeeeeeeeeeeeee() return end
+    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then doneeeeeeeeeeeeee() TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta) return end
     nvTruoc=checkNV().id
     itemTruoc=checkNV().itemNV
     metaTruoc=checkNV().meta
     du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
     if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
         doneeeeeeeeeeeeee()
+        TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
         return 
     end
     if goodsIdList[NhiemVu.itemNV] then
