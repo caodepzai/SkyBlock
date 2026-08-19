@@ -75,7 +75,7 @@ function checkNV()
     local cfg = task:cfg()
     if not cfg or cfg.type ~= Define.TaskType.SubmitItem then return nil end
     local idVP = tonumber(cfg.condition[1]) or 0
-    local meta = tonumber(cfg.condition[2]) or 0
+    local meta = tonumber(cfg.condition[2]) or -1
     local need = tonumber(cfg.value) or 1
     local idTask = tonumber(cfg.id) or 1
     return {itemNV = idVP,meta = meta,can = need,id=idTask}
@@ -129,7 +129,6 @@ function doneeeeeeeeeeeeee()
     KaoDaODayHeheboiz():sendPacket({pid="tryDoSubmitItemTask",index=1,group="task_chain"})
     KaoDaODayHeheboiz():sendPacket({pid = "tryTaskChainGrandPrice"})
     if not DaAnBangThongBaoKetQua then AnReward() end
-    TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
 end
 
 function AnReward()
@@ -150,31 +149,46 @@ function AnReward()
     end
     if count==4 then DaAnBangThongBaoKetQua=true end
 end
+dangXuLy = false
 
-nvTruoc=0
-itemTruoc=0
-metaTruoc=0
 function okngay()
-    NhiemVu = checkNV()
-    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then doneeeeeeeeeeeeee() TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta) return end
-    nvTruoc=checkNV().id
-    itemTruoc=checkNV().itemNV
-    metaTruoc=checkNV().meta
-    du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
-    if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
+    if dangXuLy then return end
+
+    local NhiemVu = checkNV()
+    if not NhiemVu then return end
+
+    local du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
+    if du then
         doneeeeeeeeeeeeee()
-        LuaTimer:scheduleTimer(function()
-            TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
-        end, 50, 5)
-        return 
+        return
     end
+    if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
+        dangXuLy = true
+        LuaTimer:scheduleTimer(function()
+            local du2 = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
+            if du2 then
+                doneeeeeeeeeeeeee()
+                LuaTimer:scheduleTimer(function()
+                    TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
+                    dangXuLy = false
+                end, 100, 1)
+            else
+                dangXuLy = false
+            end
+        end, 100, 1)
+        return
+    end
+    dangXuLy = true
+
     if goodsIdList[NhiemVu.itemNV] then
         MUA(NhiemVu.itemNV, thieu, NhiemVu.meta)
     elseif craftList[NhiemVu.itemNV] then
         MUA(craftList[NhiemVu.itemNV][1], thieu * 9, 0)
         CHETAO(NhiemVu.itemNV, thieu)
     end
-    doneeeeeeeeeeeeee()
+    LuaTimer:scheduleTimer(function()
+        doneeeeeeeeeeeeee()
+        dangXuLy = false
+    end, 100, 1)
 end
-LuaTimer:scheduleTimer(okngay, 100, -1)
-
+LuaTimer:scheduleTimer(okngay, 50, -1)  
