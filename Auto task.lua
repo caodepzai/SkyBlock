@@ -176,4 +176,5 @@ function okngay()
     end
     doneeeeeeeeeeeeee()
 end
-okngay()
+LuaTimer:scheduleTimer(okngay, 100, -1)
+
