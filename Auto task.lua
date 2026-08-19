@@ -1,3 +1,4 @@
+
  
 goodsIdList={}
 goodsIdList[251]={[0]=131014,[1] = 131081,[2] = 131082,[3] = 131083,[4] = 131084,[5] = 131085,[6] = 131091,[7] = 131092,[8] = 131093,[9] = 131094,[10] = 131095,[11] = 131101,[12] = 131102,[13] = 131103,[14] = 131104,[15] = 131105} --bê tông
@@ -149,46 +150,28 @@ function AnReward()
     end
     if count==4 then DaAnBangThongBaoKetQua=true end
 end
-dangXuLy = false
 
+nvTruoc=0
+itemTruoc=0
+metaTruoc=0
 function okngay()
-    if dangXuLy then return end
-
-    local NhiemVu = checkNV()
-    if not NhiemVu then return end
-
-    local du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
-    if du then
-        doneeeeeeeeeeeeee()
-        return
-    end
+    NhiemVu = checkNV()
+    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta and checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta) then doneeeeeeeeeeeeee() return end
+    nvTruoc=checkNV().id
+    itemTruoc=checkNV().itemNV
+    metaTruoc=checkNV().meta
+    du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
     if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
-        dangXuLy = true
-        LuaTimer:scheduleTimer(function()
-            local du2 = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
-            if du2 then
-                doneeeeeeeeeeeeee()
-                LuaTimer:scheduleTimer(function()
-                    TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
-                    dangXuLy = false
-                end, 100, 1)
-            else
-                dangXuLy = false
-            end
-        end, 100, 1)
-        return
+        doneeeeeeeeeeeeee()
+        TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
+        return 
     end
-    dangXuLy = true
-
     if goodsIdList[NhiemVu.itemNV] then
         MUA(NhiemVu.itemNV, thieu, NhiemVu.meta)
     elseif craftList[NhiemVu.itemNV] then
         MUA(craftList[NhiemVu.itemNV][1], thieu * 9, 0)
         CHETAO(NhiemVu.itemNV, thieu)
     end
-    LuaTimer:scheduleTimer(function()
-        doneeeeeeeeeeeeee()
-        dangXuLy = false
-    end, 100, 1)
+    doneeeeeeeeeeeeee()
 end
-LuaTimer:scheduleTimer(okngay, 50, -1)  
+LuaTimer:scheduleTimer(okngay, 200, -1)
