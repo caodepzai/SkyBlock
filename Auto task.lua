@@ -75,7 +75,7 @@ function checkNV()
     local cfg = task:cfg()
     if not cfg or cfg.type ~= Define.TaskType.SubmitItem then return nil end
     local idVP = tonumber(cfg.condition[1]) or 0
-    local meta = tonumber(cfg.condition[2]) or -1
+    local meta = tonumber(cfg.condition[2]) or 0
     local need = tonumber(cfg.value) or 1
     local idTask = tonumber(cfg.id) or 1
     return {itemNV = idVP,meta = meta,can = need,id=idTask}
@@ -163,7 +163,9 @@ function okngay()
     du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
     if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
         doneeeeeeeeeeeeee()
-        TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
+        LuaTimer:scheduleTimer(function()
+            TraVaoRuong(NhiemVu.itemNV, NhiemVu.meta)
+        end, 50, 5)
         return 
     end
     if goodsIdList[NhiemVu.itemNV] then
@@ -174,4 +176,4 @@ function okngay()
     end
     doneeeeeeeeeeeeee()
 end
-LuaTimer:scheduleTimer(okngay, 100, -1)
+okngay()
