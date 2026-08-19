@@ -159,7 +159,7 @@ function okngay()
     if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then return end
     nvTruoc=checkNV().id
     itemTruoc=checkNV().itemNV
-    metaTruoc==checkNV().meta
+    metaTruoc=checkNV().meta
     du, thieu = checkItem(NhiemVu.itemNV, NhiemVu.can, NhiemVu.meta)
     if LayTuRuong(NhiemVu.itemNV, NhiemVu.meta) then
         doneeeeeeeeeeeeee()
