@@ -156,7 +156,7 @@ itemTruoc=0
 metaTruoc=0
 function okngay()
     NhiemVu = checkNV()
-    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then return end
+    if checkNV().id==nvTruoc and itemTruoc==checkNV().itemNV and metaTruoc==checkNV().meta then doneeeeeeeeeeeeee() return end
     nvTruoc=checkNV().id
     itemTruoc=checkNV().itemNV
     metaTruoc=checkNV().meta
